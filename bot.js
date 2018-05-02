@@ -130,6 +130,12 @@ message.channel.send({embed: {
 });
 break;
 
+case "!startafk":
+message.channel.send("@ here AFK Check! Join queue and react with 👌 to be moved in!")
+.then(r=> 
+r.message.react("👌"))
+break;
+           
 case "!info":
 message.delete();
 
