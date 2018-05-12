@@ -164,17 +164,17 @@ message.channel.send({embed: {
   },
   fields: [{
       name: "__**Version**__",
-      value: "2.1.8",
+      value: "2.1.9",
       inline: true,
     },
     {
       name: "__**Release Date**__",
-      value: "4/3/18",
+      value: "5/12/18",
       inline: true,
     },
     {
       name: "__**Recent Update:**__",
-      value: "Music command added. !mhelp in <#379104814056865793> will list the commands."
+      value: "<#444916854377414667> now has reactable roles, which give you said role and remove said role."
     }
   ],
   timestamp: new Date(),
