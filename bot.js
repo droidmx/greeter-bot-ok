@@ -179,7 +179,7 @@ message.channel.send({embed: {
   ],
   timestamp: new Date(),
   footer: {
-    icon_url: "https://cdn.discordapp.com/avatars/160140367554019329/a423acbb3957e25bce788915eda9414a.png?size=2048",
+    icon_url: "https://cdn.discordapp.com/avatars/160140367554019329/4f40e77dfd40d40fc6f7f05956c760e4.png?size=2048",
     text: "© ok hand#6327"
   }
 }
