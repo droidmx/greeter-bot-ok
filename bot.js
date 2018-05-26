@@ -6,6 +6,7 @@ const ownerid =  "160140367554019329"
 const music = require('discord.js-musicbot-addon');
 const snekfetch = require("snekfetch");
 const setupCMD = "!createrolemessage"
+const weather = require('weather-js');
 
 let initialMessage = `**React to the messages below to receive the associated role. If you would like to remove the role, simply remove your reaction!**`;
 const roles = ["Fortnite", "Rocket League", "Overwatch", "RotMG", "GTAV"];
@@ -164,22 +165,22 @@ message.channel.send({embed: {
   },
   fields: [{
       name: "__**Version**__",
-      value: "2.1.9",
+      value: "2.2",
       inline: true,
     },
     {
       name: "__**Release Date**__",
-      value: "5/12/18",
+      value: "5/26/18",
       inline: true,
     },
     {
       name: "__**Recent Update:**__",
-      value: "<#444916854377414667> now has reactable roles, which give you said role and remove said role."
+      value: "Weather command (!weather location) was added."
     }
   ],
   timestamp: new Date(),
   footer: {
-    icon_url: "https://cdn.discordapp.com/avatars/160140367554019329/4f40e77dfd40d40fc6f7f05956c760e4.png?size=2048",
+    icon_url: "https://cdn.discordapp.com/avatars/160140367554019329/86941cff5d6b12ac93b0941dea2056cb.png?size=2048",
     text: "© ok hand#6327"
   }
 }
@@ -204,12 +205,12 @@ message.channel.send({embed: {
   },
   fields: [{
       name: "__**Version**__",
-      value: "2.1.8",
+      value: "2.2",
       inline: true,
     },
     {
       name: "__**Release Date**__",
-      value: "4/3/18",
+      value: "5/26/18",
       inline: true,
     },
     {
@@ -231,7 +232,7 @@ message.channel.send({embed: {
   ],
   timestamp: new Date(),
   footer: {
-    icon_url: "https://cdn.discordapp.com/avatars/160140367554019329/a423acbb3957e25bce788915eda9414a.png?size=2048",
+    icon_url: "https://cdn.discordapp.com/avatars/160140367554019329/86941cff5d6b12ac93b0941dea2056cb.png?size=2048",
     text: "© ok hand#6327"
   }
 }
@@ -245,6 +246,34 @@ return message.reply("You don't have the required role to use this!");
 console.log(eval(message.content.slice(5).trim()));
 break;
 
+case "!weather":
+weather.find({search: args.join(" "), degreeType: 'F'}, function(err, result) { 
+  if (err) message.channel.send(err);
+
+  if (result.length === 0) {
+      message.channel.send('**Please enter a valid location.**')
+      return;
+  }
+
+  var current = result[0].current;
+  var location = result[0].location;
+
+  const embed = new Discord.RichEmbed()
+      .setDescription(`**${current.skytext}**`)
+      .setAuthor(`Weather for ${current.observationpoint}`)
+      .setThumbnail(current.imageUrl)
+      .setColor(0x00AE86) 
+      .addField('Timezone',`UTC${location.timezone}`, true)
+      .addField('Degree Type',location.degreetype, true)
+      .addField('Temperature',`${current.temperature} Degrees`, true)
+      .addField('Feels Like', `${current.feelslike} Degrees`, true)
+      .addField('Winds',current.winddisplay, true)
+      .addField('Humidity', `${current.humidity}%`, true)
+
+      message.channel.send({embed})
+})
+break;
+           
 case "!fnwin":
 let winpic = args.slice(0).join(' ');
 
