@@ -21,6 +21,7 @@
         "npm": "^5.7.1",
         "opusscript": "0.0.6",
         "snekfetch": "^3.6.4",
+        "weather-js": "^2.0.0",
         "web": "0.0.2",
         "youtube-audio-stream": "^0.2.0",
         "youtube-dl": "^1.12.2",
