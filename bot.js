@@ -152,7 +152,7 @@ message.channel.send({embed: {
   },
   fields: [{
       name: "__**Version**__",
-      value: "2.2",
+      value: "2.2.1",
       inline: true,
     },
     {
@@ -162,7 +162,7 @@ message.channel.send({embed: {
     },
     {
       name: "__**Recent Update:**__",
-      value: "Weather command (!weather location) was added."
+      value: "Overall command cleanup as well as new staff commands."
     }
   ],
   timestamp: new Date(),
@@ -185,7 +185,7 @@ message.channel.send({embed: {
   },
   fields: [{
       name: "__**Version**__",
-      value: "2.2",
+      value: "2.2.1",
       inline: true,
     },
     {
@@ -264,7 +264,7 @@ return;
 let announcement = args.slice(0).join(' ');
 
 if(!announcement)
-return;
+message.delete();
 
 if(announcement)
 client.channels.get('328434536616689664').send("@everyone")
@@ -945,4 +945,4 @@ break;
     
 });
 
-client.login(process.env.BOT_TOKEN)
+client.login("NDExMjc3OTY0NzIzMDkzNTA0.DV5X-Q.v4_HQZB9NETbZ7_UuIxEN_Ppkx0")
