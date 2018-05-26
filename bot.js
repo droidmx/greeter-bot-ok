@@ -173,13 +173,6 @@ message.channel.send({embed: {
 }
 });
 break;
-
-case "!startafk":
-message.channel.send("@ here AFK Check! Join queue and react with 👌 to be moved in!")
-.then(function (m) {
-    m.react("👍")
-})
-break;
            
 case "!info":
 message.delete();
@@ -234,6 +227,7 @@ console.log(eval(message.content.slice(5).trim()));
 break;
 
 case "!weather":
+message.delete();
 weather.find({search: args.join(" "), degreeType: 'F'}, function(err, result) { 
   if (err) message.channel.send(err);
 
@@ -260,9 +254,37 @@ weather.find({search: args.join(" "), degreeType: 'F'}, function(err, result) {
       message.channel.send({embed})
 })
 break;
-           
+        
+case "!announce":
+message.delete();
+
+if(!message.member.roles.some(r=>["Administrator", ":ok_hand:", "Officer", "Admin", "Head Raid leader"].includes(r.name)) )
+return;
+
+let announcement = args.slice(0).join(' ');
+
+if(!announcement)
+return;
+
+if(announcement)
+client.channels.get('328434536616689664').send("@everyone")
+client.channels.get('328434536616689664').send({embed: {
+  color: 0xff040b,
+  title: announcement,
+  author: {
+    name: `Announcement | ${message.author.tag}`,
+    icon_url: message.author.avatarURL
+  },
+  footer: {
+    text: "Please contact the staff for any problems you may have.",
+}
+}
+})
+break;
+
 case "!fnwin":
 let winpic = args.slice(0).join(' ');
+message.delete();
 
 if(!message.member.roles.some(r=>["Fortnite"].includes(r.name)) )
 return message.reply("You don't have the required role to use this!");
@@ -275,21 +297,8 @@ message.delete();
 message.reply("Good job on the win! Check <#424336735179374612> to see it!")
 break;
 
-case "!sbwin":
-let swinpic = args.slice(0).join(' ');
-
-if(!message.member.roles.some(r=>["Spicy Bois A", "Spicy Bois B"].includes(r.name)) )
-return message.reply("You don't have the required role to use this!");
-
-if(!swinpic)
-return message.reply("Please include a screenshot link or gfycat link.")
-
-client.channels.get("424336735179374612").send("**The Spicy Bois got a Victory Royale!**\n" + swinpic)
-message.delete();
-message.reply("Good job on the win! Check <#424336735179374612> to see it!")
-break;
-
-  case "!owranks":
+case "!owranks":
+  message.delete();
     message.channel.send({embed: {
     color: 0xff040b,
     author: {
@@ -340,252 +349,46 @@ break;
     }
   }
 });
-  break;
+break;
 
 case "!fortnite":
+message.delete();
 message.guild.member(message.author).addRole("409198125828538378");
 message.channel.send("The user " + message.author + " was given the role ``Fortnite``");
 break;
 
-case "!dreamteama":
-let spicyrole = message.guild.roles.find("name", "Spicy Bois A");
-let spicyboi = message.mentions.members.first();
-
-if(!message.member.roles.some(r=>["Administrator"].includes(r.name)) )
-return message.reply("You aren't Administrator of the dream team.");
-
-spicyboi.addRole(spicyrole).catch(console.error);
-return message.channel.send(spicyboi + " has been added to Spicy Bois A.")
-break;
-
-case "!dreamteamb":
-let spicyrolea = message.guild.roles.find("name", "Spicy Bois B");
-let spicyboia = message.mentions.members.first();
-
-if(!message.member.roles.some(r=>["Administrator"].includes(r.name)) )
-return message.reply("You aren't Administrator of the dream team.");
-
-spicyboia.addRole(spicyrolea).catch(console.error);
-return message.channel.send(spicyboia + " has been added to Spicy Bois B.")
-break;
-
-case "!sbtrial":
-let spicytrial = message.mentions.members.first();
-
-if(!message.member.roles.some(r=>["Spicy Bois"].includes(r.name)) )
-return message.reply("You aren't a Spicy Boi of the dream team.");
-
-spicytrial.setVoiceChannel('424402825435414529')
-client.channels.get("424403379196919808").send(message.author + " has trialed " + spicytrial + ".")
-break;
-
-case "!sbbreak":
-let sbtime = args.slice(0).join(' ');
-
-if(!message.member.roles.some(r=>["Spicy Bois"].includes(r.name)) )
-return message.reply("You aren't a Spicy Boi!")
-
-if(!sbtime)
-return message.reply("Please include an estimated time that the Spicy Bois will come back!\n**Correct Usage:** ``!sbbreak 10 minutes``")
-
-client.channels.get("424379316353105920").send("<@&424375116554829834>");
-client.channels.get("424379316353105920").send({embed: {
-  color: 0xff040b,
-  author: {
-    name: "Spicy Boi's Status",
-    icon_url: client.user.avatarURL
-  },
-  title: "**Spicy Bois are on a break right now!**",
-  description: "Please check in after the estimated time and we should be playing!",
-  fields: [{
-    name: "**Estimated Break Time**",
-    value: "*" + sbtime + "*"
-  }
-],
-  timestamp: new Date(),
-  footer: {
-    icon_url: client.user.avatarURL,
-  }
-}
-});
-break;
-
-case "!sbclosed":
-if(!message.member.roles.some(r=>["Spicy Bois"].includes(r.name)) )
-return message.reply("You aren't a Spicy Boi!")
-
-client.channels.get("424379316353105920").send("<@&424375116554829834>");
-client.channels.get("424379316353105920").send({embed: {
-  color: 0xff040b,
-  author: {
-    name: "Spicy Boi's Status",
-    icon_url: client.user.avatarURL
-  },
-  title: "**Spicy Bois are not playing right now!**",
-  description: "Please check in later and we might be playing!",
-  timestamp: new Date(),
-  footer: {
-    icon_url: client.user.avatarURL,
-  }
-}
-});
-break;
-
-case "!sbopen":
-if(!message.member.roles.some(r=>["Spicy Bois"].includes(r.name)) )
-return message.reply("You aren't a Spicy Boi!")
-
-client.channels.get("424379316353105920").send("<@&424375116554829834>");
-client.channels.get("424379316353105920").send({embed: {
-  color: 0xff040b,
-  author: {
-    name: "Spicy Boi's Status",
-    icon_url: client.user.avatarURL
-  },
-  title: "**Spicy Bois are playing right now!**",
-  description: "Join Spicy Boi Fortnite and grab some wins!",
-  timestamp: new Date(),
-  footer: {
-    icon_url: client.user.avatarURL,
-  }
-}
-});
-break;
-
-case "!sbcommands":
-if(!message.member.roles.some(r=>["Spicy Bois"].includes(r.name)) )
-return message.reply("You aren't a Spicy Boi!")
-
-message.delete();
-message.channel.send({embed: {
-  color: 0xff040b,
-  author: {
-    name: client.user.username,
-    icon_url: client.user.avatarURL
-  },
-  thumbnail: {
-    url: "http://simpleicon.com/wp-content/uploads/gear-2.png"
-  },
-  title: "__**Spicy Boi Commands**__",
-  description: "These are all of the current commands for the Spicy Bois.",
-  fields: [{
-      name: "\u200b",
-      value: "\u200b"
-    },
-    {
-      name: "__**General SB Commands**__",
-      value: "These are basic commands that are not of importance, but can help."
-    },
-    {
-      name: "**!sbwin**",
-      value: "This command will send a picture into <#424336735179374612> of your win. Usage is as follows: ``!sbwin https://cdn.discordapp.com/attachments/``"
-    },
-    {
-      name: "**!sbtrial**",
-      value: "This command will drag the mentioned user into Spicy Trial to be trialed. Usage is as follows: ``!sbtrial <@160140367554019329>``"
-    },
-    {
-      name: "\u200b",
-      value: "\u200b"
-    },
-    {
-      name: "__**SB Status Commands**__",
-      value: "These are important commands for being a Spicy Boi."
-    },
-    {
-      name: "**!sbopen**",
-      value: "This command will change the status of <#424379316353105920> to open. The command is used as is."
-    },
-    {
-      name: "**!sbclosed**",
-      value: "This command will change the status of <#424379316353105920> to closed. The command is used as is."
-    },
-    {
-      name: "**!sbbreak**",
-      value: "This command will change the status of <#424379316353105920> to on break. Usage is as follows: ``!sbbreak (Time Interval)`` "
-    },
-    {
-      name: "\u200b",
-      value: "\u200b"
-    },
-    {
-      name: "__**Misc. Commands**__",
-      value: "Not at all important commands."
-    },
-    {
-      name: "**!sblist**",
-      value: "This command will display the current number of users with the role, <@&424375116554829834>. The command is used as is."
-    }
-  ],
-  timestamp: new Date(),
-  footer: {
-    icon_url: client.user.avatarURL,
-  }
-}
-});
-break;
-
-case "!sblist":
-let roleID = "424375116554829834";
-let membersWithRole = message.guild.roles.get(roleID).members;
-
-message.channel.send(`**There are ${membersWithRole.size} Spicy Bois in the dream team.**`);
-break;
-
 case "!rotmg":
+message.delete();
 message.guild.member(message.author).addRole("409198191796289546");
 message.channel.send("The user " + message.author + " was given the role ``RotMG``");
 break;
 
 case "!overwatch":
+message.delete();
 message.guild.member(message.author).addRole("409198136347721739");
 message.channel.send("The user " + message.author + " was given the role ``Overwatch``");
 break;
 
 case "!gtav":
+message.delete();
 message.guild.member(message.author).addRole("409198078894014465");
 message.channel.send("The user " + message.author + " was given the role ``GTAV``");
 break;
 
 case "!rleague":
+message.delete();
 message.guild.member(message.author).addRole("409198133327953930");
 message.channel.send("The user " + message.author + " was given the role ``Rocket League``");
 break;
 
 case "!rfortnite":
+message.delete();
 message.guild.member(message.author).removeRole("409198125828538378");
 message.channel.send("The user " + message.author + " got ``Fortnite`` removed.");
 break;
 
-case "!testjson":
-let tapi = "https://jsonplaceholder.typicode.com/posts";
-
-snekfetch.get(tapi).then(r => {
-  let tbody = r.body;
-  let tid = Number(args[0]);
-  
-  if(!tid)
-  return message.channel.send("Supply an ID!");
- 
-  if(isNaN(tid))
-  return message.channel.send("Supply a valid number!");
-
-  let entry = tbody.find(post => post.id === tid);
-  
-  if(!entry)
-  return message.channel.send("This entry does not exist!")
-
-  let tjembed = new Discord.RichEmbed()
-  .setAuthor(entry.title)
-  .setDescription(entry.body)
-  .addField("Author ID", entry.userId)
-  .setFooter("post ID: " + entry.id)
-
-  message.channel.sendEmbed(tjembed)
-});
-break;
-
 case "!rdesc":
+message.delete();
 let rduser = args.slice(0).join("");
 let rdapi = "http://www.tiffit.net/RealmInfo/api/user?u=" + rduser + "&f=c;"
 
@@ -596,65 +399,8 @@ snekfetch.get(rdapi).then(h => {
 })
 break;
 
-case "!verify":
-let ruser = args.slice(0).join("");
-let rcode = ("CH" + Math.floor(Math.random(11111) * 99999));
-let rapi = "http://www.tiffit.net/RealmInfo/api/user?u=" + ruser + "&f=c;"
-
-snekfetch.get(rapi).then(h => {
-  let brdesc = h.body.description;
-
-if(!ruser)
-return message.author.send("Please include a username after !verify! Any typos will cause your verification process to fail.")
-
-message.delete();
-
-message.author.send({embed: {
-  color: 0xff040b,
-  author: {
-    name: `Verification | ${message.author.tag}`,
-    icon_url: message.author.avatarURL
-  },
-  fields: [{
-      name: "**Your Code:**",
-      value: `__**${rcode}**__`,
-      inline: true,
-    },
-    {
-      name: "**Realmeye Link:**",
-      value: `https://www.realmeye.com/player/${ruser}`,
-      inline: true,
-    },
-    {
-      name: `Place your code in the __**first line**__ of your Realmeye description, replacing everything else.`,
-      value: `Your original Realmeye description will be sent back shortly.`,
-    },
-  ],
-  footer: {
-    text: "*The bot will check in 90 seconds to see if you followed directions.*",
-  }
-}
-});
-
-setTimeout(function(){ 
-
-snekfetch.get(rapi).then(r => {
-  let rdesc = r.body.description;
-  let rname = r.body.name
-
-  if(!rdesc.includes(rcode))
-  return message.author.send("Your code was not found in the first line of your Realmeye description. Your previous Realmeye description was:\n```" + brdesc + "```")
-
-  if(rdesc.includes(rcode))
-  message.guild.member(message.author).setNickname(`${rname}`)
-  message.guild.member(message.author).addRole("429429646879358984")
-  message.author.send("You have successfully been verified!\nYour previous Realmeye description was:\n```" + brdesc + "```");
-})
-}, 60000);
-})
-break;
-
 case "!find":
+message.delete();
 let users = client.users;
 let searchTerm = args[0];
 
@@ -671,56 +417,27 @@ message.channel.send(foundppl);
 break;
 
 case "!rrotmg":
+message.delete();
 message.guild.member(message.author).removeRole("409198191796289546");
 message.channel.send("The user " + message.author + " got ``RotMG`` removed.");
 break;
 
 case "!roverwatch":
+message.delete();
 message.guild.member(message.author).removeRole("409198136347721739");
 message.channel.send("The user " + message.author + " got ``Overwatch`` removed.");
 break;
 
 case "!rgtav":
+message.delete();
 message.guild.member(message.author).removeRole("409198078894014465");
 message.channel.send("The user " + message.author + " got ``GTAV`` removed.");
 break;
 
 case "!rrleague":
+message.delete();
 message.guild.member(message.author).removeRole("409198133327953930");
 message.channel.send("The user " + message.author + " got ``Rocket League`` removed.");
-break;
-
-case "!afkcheck":
-message.channel.send("@ here")
-message.channel.send({embed: {
-  color: 0xff040b,
-  author: {
-    name: client.user.username,
-    icon_url: client.user.avatarURL
-  },
-  title: "**An AFK-check has started!**",
-  description: "React with 👍 to stay in the voice channel!",
-  timestamp: new Date(),
-  footer: {
-    icon_url: client.user.avatarURL,
-  }
-}
-})
-.then(function (m) {
-  m.react("👍")
-  
-  .then(m => {
-  setTimeout(() => {
-  const ausers = m.reactions.get("👍").fetchUsers
-  .then(ausers => {
-      Users.foreach(aser => {
-          Msg.guild.fetchmember(auser).setVoiceChannel("408041503903055872")
-        }, 120000
-)
-  })
-})
-})
-})
 break;
 
 case "!purge":
@@ -739,16 +456,11 @@ let messagecount = parseInt(messagenumber);
 break;
 
 case "!vote":
-let agree = "👍"
-let disagree = "👎"
+message.delete();
 let pollresponse = args.slice(0).join(' ');
-let polltime = args.slice(1).join(' ');
 
 if(!pollresponse)
-return message.reply("Please include a question:\n``!vote test 5``\n*Command, Question, Time (In Seconds)*")
-
-if(!polltime)
-return message.reply("Please include a time limit (in seconds):\n``!vote test 5``\n*Command, Question, Time (In Seconds)*")
+return message.reply("Please include a question:\n``!vote test``\n*Command, Question*")
 
 message.channel.send({embed: {
   color: 0xff040b,
@@ -756,12 +468,8 @@ message.channel.send({embed: {
     name: client.user.username,
     icon_url: client.user.avatarURL
   },
+  title: pollresponse,
   description: "Vote 👍 or 👎 for the below questionarre.",
-  fields: [{
-      name: "**" + pollresponse + "**",
-      value: "Time: " + polltime + " seconds",
-    }
-  ],
   timestamp: new Date(),
 }
 })
@@ -769,30 +477,11 @@ message.channel.send({embed: {
 .then(function (message) {
 message.react('👍') 
 message.react('👎');
-
-const vfilter = (reaction, user) => {
-    return ['👍', '👎'].includes(reaction.emoji.name) && user.id === message.author.id;
-};
-
-message.awaitReactions(vfilter, { time: polltime*1000, errors: ['time'] })
-    .then(collected => {
-        const reaction = collected.first();
-
-        if (reaction.emoji.name === '👍') {
-            message.channel.send('you reacted with a thumbs up.');
-        }
-        else {
-            message.channel.send('you reacted with a thumbs down.');
-        }
-    })
-    .catch(collected => {
-        console.log(`After a minute, only ${collected.size} out of 4 reacted.`);
-        message.channel.send('you didn\'t react with neither a thumbs up, nor a thumbs down.');
-    });
-  })
+})
 break;
 
 case "!love":
+message.delete();
 let lover = message.mentions.members.first();
 
 if(!lover)
@@ -820,7 +509,7 @@ message.channel.send({embed: {
 break;
 
 case "!userinfo":
-
+message.delete();
 let uiembed = new Discord.RichEmbed()
 .setAuthor(message.author.username)
 .setDescription("This is " + message.author.username + "'s info!")
@@ -834,6 +523,7 @@ message.channel.sendEmbed(uiembed)
 break;
 
 case "!suggest":
+message.delete();
 let suggestion = args.slice(0).join(' ');
 
 if (!suggestion)
@@ -866,6 +556,7 @@ client.channels.get("424791795923156993").send({embed: {
 break;
 
   case "!rotmgchars":
+  message.delete();
     message.channel.send({embed: {
     color: 0xff040b,
     author: {
@@ -943,10 +634,12 @@ break;
   break;
 
 case "!ping":
+message.delete();
 message.reply("Pong!")
 break;
 
   case "!commands":
+  message.delete();
     message.channel.send({embed: {
     color: 0xff040b,
     author: {
@@ -996,6 +689,7 @@ break;
 break;
 
 case "!commands2":
+message.delete();
 message.channel.send({embed: {
 color: 0xff040b,
 author: {
@@ -1037,19 +731,22 @@ footer: {
 break;
 
 case "!youtube":
+message.delete();
   let youtube = args.slice(0).join("+");
   message.channel.send("https://www.youtube.com/results?search_query=" + youtube);
 break;
 
-case "!hello":
+case "hello":
   message.channel.send("Hey there!");
 break;
 
 case "!okinvite":
+message.delete();
   message.author.send("**If you want to invite people to ok hand, use this link:** https://discord.gg/pQtbFpA");
 break;
 
 case "!avatar":
+message.delete();
 let avataruser = message.mentions.users.first();
 
 if(avataruser)
@@ -1061,10 +758,12 @@ return message.reply(message.author.avatarURL);
 break;
 
 case "!roll":
+message.delete();
   message.channel.send("**You rolled a **`" + Math.floor(Math.random() * 100) + "`");
 break;
 
 case "!coinflip":
+message.delete();
 var flip = Math.floor(Math.random() * 2 + 1);
 if (flip === 1) {
   message.reply({embed: {
@@ -1246,4 +945,4 @@ break;
     
 });
 
-client.login('NDExMjc3OTY0NzIzMDkzNTA0.DV5X-Q.v4_HQZB9NETbZ7_UuIxEN_Ppkx0');
+client.login(process.env.BOT_TOKEN)
