@@ -945,4 +945,4 @@ break;
     
 });
 
-client.login("NDExMjc3OTY0NzIzMDkzNTA0.DV5X-Q.v4_HQZB9NETbZ7_UuIxEN_Ppkx0")
+client.login(process.env.BOT_TOKEN)
