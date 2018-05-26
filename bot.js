@@ -264,7 +264,7 @@ return;
 let announcement = args.slice(0).join(' ');
 
 if(!announcement)
-message.delete();
+return;
 
 if(announcement)
 client.channels.get('328434536616689664').send("@everyone")
