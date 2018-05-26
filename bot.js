@@ -63,19 +63,6 @@ client.on('raw', event => {
   }   
 });
 
-music(client, {
-  prefix: "!",
-  maxQueueSize: "100",
-  disableLoop: true,
-  leaveHelp: "Leaves the channel.",
-  leaveAlt: ["lve","leev","un1c0rns"],
-  helpCmd: 'mhelp',
-  leaveCmd: 'leave',
-  ownerOverMember: true,
-  botOwner: '160140367554019329',
-  youtubeKey: 'AIzaSyCGPHuK7cKaWyJ-_eUDjQGE-jvbkCa7aCw'
-});
-
 client.on('guildMemberAdd', member => {
   
 client.channels.get("409362377126182922").send({embed: {
@@ -250,7 +237,7 @@ case "!weather":
 weather.find({search: args.join(" "), degreeType: 'F'}, function(err, result) { 
   if (err) message.channel.send(err);
 
-  if (result.length === 0) {
+  if (result === undefined || result.length === 0) {
       message.channel.send('**Please enter a valid location.**')
       return;
   }
