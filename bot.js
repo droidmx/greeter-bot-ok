@@ -256,7 +256,7 @@ weather.find({search: args.join(" "), degreeType: 'F'}, function(err, result) {
 break;
         
 case "!apply":
-message.author.send(`Hello ${message.author}, your form will be sent shortly.');
+message.author.send(`Hello ${message.author}, your form will be sent shortly.`);
 message.author.send({embed: {
   color: 0xff040b,
   author: {
