@@ -255,6 +255,27 @@ weather.find({search: args.join(" "), degreeType: 'F'}, function(err, result) {
 })
 break;
         
+case "!apply":
+message.author.send(`Hello ${message.author}, your form will be sent shortly.');
+message.author.send({embed: {
+  color: 0xff040b,
+  author: {
+    name: `Application Form | ${message.author.tag}`,
+    icon_url: message.author.avatarURL,
+  },
+  fields: [{
+    name: "Use the link below to apply.",
+    value: "[Apply Here](https://docs.google.com/forms/d/e/1FAIpQLSeymZws8ttc6lxAy65KdfX2DW-vxhx1699_KD6YcB5B6CvKrg/viewform?usp=sf_link)"
+  },
+ ],
+  thumbnail: {
+    url: "https://cdn.discordapp.com/avatars/160140367554019329/86941cff5d6b12ac93b0941dea2056cb.png?size=2048"
+  },
+  timestamp: new Date(),
+  }}
+);
+break;
+           
 case "!announce":
 message.delete();
 
